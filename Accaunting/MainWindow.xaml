@@ -1,0 +1,56 @@
+﻿<Window x:Class="Accaunting.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialMenu="clr-namespace:MaterialMenu;assembly=MaterialMenu"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Accaunting"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Accaunting" 
+        Height="{Binding SystemParameters.PrimaryScreenHeight}" 
+        Width="{Binding SystemParameters.PrimaryScreenWidth}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0">
+            <materialMenu:SideMenu HorizontalAlignment="Left" x:Name="Menu"
+                           MenuWidth="300"
+                           Theme="Default"
+                           State="Visible">
+                <materialMenu:SideMenu.Menu>
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <StackPanel Orientation="Vertical">
+                            <Border Background="#337AB5">
+                                <Grid Margin="10">
+                                    <TextBox Height="150" BorderThickness="0" Background="Transparent"
+                                    VerticalContentAlignment="Bottom" FontFamily="Calibri" FontSize="18"
+                                    Foreground="WhiteSmoke" FontWeight="Bold">Здравей</TextBox>
+                                </Grid>
+                            </Border>
+                            <materialMenu:MenuButton Text="Статистика"></materialMenu:MenuButton>
+                            <materialMenu:MenuButton Text="Приходи"></materialMenu:MenuButton>
+                            <materialMenu:MenuButton Text="Разходи"></materialMenu:MenuButton>
+                        </StackPanel>
+                    </ScrollViewer>
+                </materialMenu:SideMenu.Menu>
+            </materialMenu:SideMenu>
+        </DockPanel>
+
+        <StackPanel Grid.Column="1">
+            <materialDesign:Card Padding="32" Margin="16">
+                <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}">Приходи</TextBlock>
+            </materialDesign:Card>
+        </StackPanel>
+        
+    </Grid>
+</Window>

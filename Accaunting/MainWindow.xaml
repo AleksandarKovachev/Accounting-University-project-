@@ -38,13 +38,10 @@
                                     <TextBox Height="150" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Bottom" FontFamily="Calibri" FontSize="18" Foreground="WhiteSmoke" FontWeight="Bold">This is a custom colors example.</TextBox>
                                 </Grid>
                             </Border>
-                            <materialMenu:MenuButton Text="Administration"></materialMenu:MenuButton>
-                            <materialMenu:MenuButton Text="Packing"></materialMenu:MenuButton>
-                            <materialMenu:MenuButton Text="Logistics"></materialMenu:MenuButton>
-                            <materialMenu:MenuButton Text="Org"></materialMenu:MenuButton>
-                            <materialMenu:MenuButton Text="SaveChanges"></materialMenu:MenuButton>
-                            <materialMenu:MenuButton Text="Help"></materialMenu:MenuButton>
-                            <materialMenu:MenuButton Text="Close Menu"></materialMenu:MenuButton>
+                            <materialMenu:MenuButton Text="Преглед" MouseDown="Overview_OnMouseDown"></materialMenu:MenuButton>
+                            <materialMenu:MenuButton Text="Баланс"></materialMenu:MenuButton>
+                            <materialMenu:MenuButton Text="Приходи"></materialMenu:MenuButton>
+                            <materialMenu:MenuButton Text="Разходи"></materialMenu:MenuButton>
                         </StackPanel>
                     </ScrollViewer>
                 </materialMenu:SideMenu.Menu>

@@ -16,12 +16,8 @@ using System.Windows.Shapes;
 
 namespace Accaunting
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-
         private void Overview_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Login login = new Login();
@@ -31,14 +27,27 @@ namespace Accaunting
 
         public MainWindow()
         {
-            this.WindowState = WindowState.Maximized;
             InitializeComponent();
+            this.DataContext = this;
+            this.WindowState = WindowState.Maximized;
         }
 
-        private void Menu_Loaded(object sender, RoutedEventArgs e)
+        public string Header
         {
-
+            get
+            {
+                return Constants.HEADER;
+            }
+            set { }
         }
 
+        public string Welcome
+        {
+            get
+            {
+                return Constants.WELCOME;
+            }
+            set { }
+        }
     }
 }

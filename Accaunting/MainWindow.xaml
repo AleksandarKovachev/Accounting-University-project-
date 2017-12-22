@@ -16,6 +16,7 @@
         TextElement.FontSize="14"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -35,13 +36,13 @@
                         <StackPanel Orientation="Vertical">
                             <Border Background="#337AB5">
                                 <Grid Margin="10">
-                                    <TextBox Height="150" BorderThickness="0" Background="Transparent" VerticalContentAlignment="Bottom" FontFamily="Calibri" FontSize="18" Foreground="WhiteSmoke" FontWeight="Bold">This is a custom colors example.</TextBox>
+                                    <TextBlock Height="150" Background="Transparent" VerticalAlignment="Bottom" FontSize="18" Foreground="WhiteSmoke" FontWeight="Bold" Text="{Binding Welcome}"/>
                                 </Grid>
                             </Border>
-                            <materialMenu:MenuButton Text="Преглед" MouseDown="Overview_OnMouseDown"></materialMenu:MenuButton>
-                            <materialMenu:MenuButton Text="Баланс"></materialMenu:MenuButton>
-                            <materialMenu:MenuButton Text="Приходи"></materialMenu:MenuButton>
-                            <materialMenu:MenuButton Text="Разходи"></materialMenu:MenuButton>
+                            <materialMenu:MenuButton Text="Преглед" MouseDown="Overview_OnMouseDown"/>
+                            <materialMenu:MenuButton Text="Баланс"/>
+                            <materialMenu:MenuButton Text="Приходи"/>
+                            <materialMenu:MenuButton Text="Разходи"/>
                         </StackPanel>
                     </ScrollViewer>
                 </materialMenu:SideMenu.Menu>
@@ -50,7 +51,7 @@
 
         <StackPanel Grid.Column="1">
             <materialDesign:Card Padding="32" Margin="16">
-                <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}">Приходи</TextBlock>
+                <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Header}"/>
             </materialDesign:Card>
         </StackPanel>
         

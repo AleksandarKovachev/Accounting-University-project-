@@ -24,7 +24,7 @@
 
         <DockPanel Grid.Row="0">
             <materialDesign:Card Padding="32" Margin="16">
-                <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}">Лична счетоводна програма</TextBlock>
+                <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Header}"/>
             </materialDesign:Card>
         </DockPanel>
 
@@ -32,18 +32,18 @@
             <materialDesign:Card Padding="32" Margin="16">
                 <StackPanel>
                     <DockPanel Margin="15">
-                        <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}">Име:</TextBlock>
+                        <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Username}"/>
                         <TextBox TextAlignment="Center"/>
                     </DockPanel>
                     <DockPanel Margin="15">
-                        <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}">Парола:</TextBlock>
+                        <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Password}"/>
                         <TextBox TextAlignment="Center"/>
                     </DockPanel>
                     <DockPanel Margin="15">
-                        <Button Height="50" Content="ВХОД" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
+                        <Button Height="50" Content="{Binding LoginBtn}" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
                     </DockPanel>
                     <DockPanel>
-                        <Button Width="150" HorizontalAlignment="Right" Height="60" Content="Регистрирай се" Style="{DynamicResource MaterialDesignToolButton}"/>
+                        <Button Width="150" HorizontalAlignment="Right" Height="60" Content="{Binding Registration}" Style="{DynamicResource MaterialDesignToolButton}"/>
                     </DockPanel>
                 </StackPanel>
             </materialDesign:Card>

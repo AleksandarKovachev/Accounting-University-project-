@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialMenu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,5 +26,11 @@ namespace Accaunting
             this.WindowState = WindowState.Maximized;
             InitializeComponent();
         }
+
+        private void Menu_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

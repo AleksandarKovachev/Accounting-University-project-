@@ -1,40 +1,41 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Accaunting
 {
-    public partial class Login : Window
+    public partial class Registration : Window
     {
+        private ICommand login;
 
-        private ICommand registration;
-
-        public Login()
+        public Registration()
         {
             InitializeComponent();
             this.DataContext = this;
             this.WindowState = WindowState.Maximized;
 
-            registration = new RelayCommand(ShowRegistrationWindow, param => true);
+            login = new RelayCommand(ShowLoginWindow, param => true);
         }
 
-        private void ShowRegistrationWindow(object obj)
+        private void ShowLoginWindow(object obj)
         {
-            new Registration().Show();
+            new Login().Show();
             this.Close();
         }
 
-        public ICommand Registration
+        public ICommand Login
         {
             get
             {
-                return registration;
+                return login;
             }
             set
             {
-                registration = value;
+                login = value;
             }
         }
-
 
         public string Header
         {
@@ -63,7 +64,16 @@ namespace Accaunting
             set { }
         }
 
-        public string LoginBtn
+        public string Email
+        {
+            get
+            {
+                return Constants.EMAIL;
+            }
+            set { }
+        }
+
+        public string LoginBtnText
         {
             get
             {

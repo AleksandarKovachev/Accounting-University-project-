@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -17,6 +18,16 @@ namespace Accaunting
             this.WindowState = WindowState.Maximized;
 
             login = new RelayCommand(ShowLoginWindow, param => true);
+
+            ShowUserTypes();
+        }
+
+        private void ShowUserTypes()
+        {
+            using (var ctx = new UserContext())
+            {
+                UserTypeList.ItemsSource = ctx.UserTypes.ToList();
+            }
         }
 
         private void ShowLoginWindow(object obj)
@@ -69,6 +80,15 @@ namespace Accaunting
             get
             {
                 return Constants.EMAIL;
+            }
+            set { }
+        }
+
+        public string Usertype
+        {
+            get
+            {
+                return Constants.USER_TYPE;
             }
             set { }
         }

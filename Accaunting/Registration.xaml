@@ -44,6 +44,10 @@
                             <TextBox TextAlignment="Center"/>
                         </DockPanel>
                         <DockPanel Margin="15">
+                            <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Usertype}"/>
+                            <ComboBox x:Name="UserTypeList" HorizontalContentAlignment="Center" />
+                        </DockPanel>
+                        <DockPanel Margin="15">
                             <Button Height="50" Content="{Binding RegistrationBtnText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
                         </DockPanel>
                         <DockPanel>

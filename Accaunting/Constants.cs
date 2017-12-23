@@ -15,6 +15,7 @@ namespace Accaunting
         public static string USERNAME = "Потребителско име";
         public static string PASSWORD = "Парола";
         public static string EMAIL = "Имейл";
+        public static string USER_TYPE = "Тип";
         public static string LOGIN = "ВХОД";
         public static string REGISTRATION = "РЕГИСТРАЦИЯ";
     }

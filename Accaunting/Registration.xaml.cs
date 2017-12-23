@@ -10,6 +10,7 @@ namespace Accaunting
     public partial class Registration : Window
     {
         private ICommand login;
+        private ICommand registrationBtn;
 
         public Registration()
         {
@@ -18,8 +19,51 @@ namespace Accaunting
             this.WindowState = WindowState.Maximized;
 
             login = new RelayCommand(ShowLoginWindow, param => true);
+            registrationBtn = new RelayCommand(RegisterNewUser, param => true);
 
             ShowUserTypes();
+        }
+
+        private void RegisterNewUser(object obj)
+        {
+            string username = UsernameTextBox.Text;
+            string password = PasswordTextBox.Password;
+            string email = EmailTextBox.Text;
+            UserType userType = UserTypeList.SelectedItem as UserType;
+
+            if (isValid(username, Constants.USERNAME) && isValid(password, Constants.PASSWORD) && isValid(email, Constants.EMAIL))
+            {
+                if(userType == null)
+                {
+                    System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, Constants.USER_TYPE), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                } else
+                {
+                    using (var ctx = new UserContext())
+                    {
+                        User user = new User()
+                        {
+                            username = username,
+                            password = password,
+                            email = email,
+                            userType = userType,
+                            createDate = DateTime.Now
+                        };
+                        ctx.Users.Add(user);
+                        ctx.SaveChanges();
+                    }
+                }
+            }
+
+        }
+
+        private bool isValid(string field, string name)
+        {
+            if (string.IsNullOrWhiteSpace(field))
+            {
+                System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, name), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
         }
 
         private void ShowUserTypes()
@@ -34,6 +78,18 @@ namespace Accaunting
         {
             new Login().Show();
             this.Close();
+        }
+
+        public ICommand RegistrationBtn
+        {
+            get
+            {
+                return registrationBtn;
+            }
+            set
+            {
+                registrationBtn = value;
+            }
         }
 
         public ICommand Login

@@ -33,22 +33,22 @@
                     <StackPanel>
                         <DockPanel Margin="15">
                             <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Username}"/>
-                            <TextBox TextAlignment="Center"/>
+                            <TextBox TextAlignment="Center" Name="UsernameTextBox"/>
                         </DockPanel>
                         <DockPanel Margin="15">
                             <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Password}"/>
-                            <TextBox TextAlignment="Center"/>
+                            <PasswordBox HorizontalContentAlignment="Center" Name="PasswordTextBox"/>
                         </DockPanel>
                         <DockPanel Margin="15">
                             <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Email}"/>
-                            <TextBox TextAlignment="Center"/>
+                            <TextBox TextAlignment="Center" Name="EmailTextBox"/>
                         </DockPanel>
                         <DockPanel Margin="15">
                             <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Usertype}"/>
                             <ComboBox x:Name="UserTypeList" HorizontalContentAlignment="Center" />
                         </DockPanel>
                         <DockPanel Margin="15">
-                            <Button Height="50" Content="{Binding RegistrationBtnText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
+                            <Button Height="50" Content="{Binding RegistrationBtnText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Command="{Binding RegistrationBtn}"/>
                         </DockPanel>
                         <DockPanel>
                             <Button Width="150" HorizontalAlignment="Right" Height="60" Content="{Binding LoginBtnText}" Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding Login}"/>

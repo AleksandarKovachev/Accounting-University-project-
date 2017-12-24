@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -49,7 +50,16 @@ namespace Accaunting
                             createDate = DateTime.Now
                         };
                         ctx.Users.Add(user);
-                        ctx.SaveChanges();
+                        ctx.SaveChangesAsync();
+
+                        Property property = ctx.Properties.Where(p => p.key == PropertyConstants.LOGGED_USER).SingleOrDefault();
+                        property.value = username;
+                        ctx.Properties.Attach(property);
+                        ctx.Entry(property).State = EntityState.Modified;
+                        ctx.SaveChangesAsync();
+
+                        new MainWindow().Show();
+                        this.Close();
                     }
                 }
             }

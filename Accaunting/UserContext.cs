@@ -13,5 +13,6 @@ namespace Accaunting
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserType> UserTypes { get; set; }
+        public virtual DbSet<Property> Properties { get; set; }
     }
 }

@@ -43,6 +43,7 @@
                             <materialMenu:MenuButton Text="Баланс"/>
                             <materialMenu:MenuButton Text="Приходи"/>
                             <materialMenu:MenuButton Text="Разходи"/>
+                            <materialMenu:MenuButton Text="Изход" MouseDown="Logout_OnMouseDown"/>
                         </StackPanel>
                     </ScrollViewer>
                 </materialMenu:SideMenu.Menu>

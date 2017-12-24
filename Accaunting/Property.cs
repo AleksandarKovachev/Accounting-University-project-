@@ -14,5 +14,6 @@ namespace Accaunting
         public int id { get; set; }
         public string key { get; set; }
         public string value { get; set; }
+        public override string ToString() { return this.value; }
     }
 }

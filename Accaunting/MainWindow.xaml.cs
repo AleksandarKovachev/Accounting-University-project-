@@ -1,15 +1,30 @@
-﻿using System.Windows;
+﻿using System.Data.Entity;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Accaunting
 {
     public partial class MainWindow : Window
     {
+
+        private Property loggedUser;
+
         private void Overview_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            Login login = new Login();
-            login.Show();
-            this.Close();
+        }
+
+        private void Logout_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            using (var ctx = new UserContext())
+            {
+                loggedUser.value = null;
+                ctx.Properties.Attach(loggedUser);
+                ctx.Entry(loggedUser).State = EntityState.Modified;
+                ctx.SaveChangesAsync();
+                new Login().Show();
+                this.Close();
+            }
         }
 
         public MainWindow()
@@ -17,6 +32,16 @@ namespace Accaunting
             InitializeComponent();
             this.DataContext = this;
             this.WindowState = WindowState.Maximized;
+
+            using (var ctx = new UserContext())
+            {
+                loggedUser = ctx.Properties.Where(p => p.key == PropertyConstants.LOGGED_USER).SingleOrDefault();
+                if(loggedUser.value == null)
+                {
+                    new Login().Show();
+                    this.Close();
+                }
+            }
         }
 
         public string Header
@@ -32,7 +57,7 @@ namespace Accaunting
         {
             get
             {
-                return Constants.WELCOME;
+                return string.Format(Constants.WELCOME, loggedUser.value);
             }
             set { }
         }

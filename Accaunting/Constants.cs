@@ -21,5 +21,6 @@ namespace Accaunting
 
         public static string FIELD_IS_EMPTY = "Полето {0} не е попълнено!";
         public static string MESSAGE_BOX_ERROR = "Грешка";
+        public static string MISSING_USER = "Потребител с потребителско име {0} и въведената парола не е намерен!";
     }
 }

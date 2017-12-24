@@ -10,23 +10,6 @@ namespace Accaunting
 
         private Property loggedUser;
 
-        private void Overview_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void Logout_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            using (var ctx = new UserContext())
-            {
-                loggedUser.value = null;
-                ctx.Properties.Attach(loggedUser);
-                ctx.Entry(loggedUser).State = EntityState.Modified;
-                ctx.SaveChangesAsync();
-                new Login().Show();
-                this.Close();
-            }
-        }
-
         public MainWindow()
         {
             InitializeComponent();
@@ -59,7 +42,7 @@ namespace Accaunting
             {
                 return string.Format(Constants.WELCOME, loggedUser.value);
             }
-            set { }
+            set {}
         }
     }
 }

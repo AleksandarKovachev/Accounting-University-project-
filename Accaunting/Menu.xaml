@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Accaunting.Menu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Accaunting"
+             xmlns:materialMenu="clr-namespace:MaterialMenu;assembly=MaterialMenu"
+             mc:Ignorable="d" >
+    <Grid>
+        <materialMenu:SideMenu HorizontalAlignment="Left" x:Name="CustomMenu"
+                               MenuWidth="300"
+                               State="Visible"
+                               Theme="Default"
+                               ButtonBackground="Transparent"
+                               ButtonHover="Gray"
+                               ShadowBackground="Black">
+            <materialMenu:SideMenu.Menu>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden" Background="Blue">
+                    <StackPanel Orientation="Vertical">
+                        <Border Background="#337AB5">
+                            <Grid Margin="10">
+                                <TextBlock Height="150" Background="Transparent" VerticalAlignment="Bottom" FontSize="18" Foreground="WhiteSmoke" FontWeight="Bold" Text="{Binding Path=Welcome}"/>
+                            </Grid>
+                        </Border>
+                        <materialMenu:MenuButton Text="Преглед" MouseDown="Overview_OnMouseDown"/>
+                        <materialMenu:MenuButton Text="Баланс"/>
+                        <materialMenu:MenuButton Text="Приходи"/>
+                        <materialMenu:MenuButton Text="Разходи"/>
+                        <materialMenu:MenuButton Text="Изход" MouseDown="Logout_OnMouseDown"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </materialMenu:SideMenu.Menu>
+        </materialMenu:SideMenu>
+    </Grid>
+</UserControl>

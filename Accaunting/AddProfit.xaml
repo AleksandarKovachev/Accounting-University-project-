@@ -1,0 +1,82 @@
+﻿<Window x:Class="Accaunting.AddProfit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Accaunting"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Profit" 
+        Height="{Binding SystemParameters.PrimaryScreenHeight}" 
+        Width="{Binding SystemParameters.PrimaryScreenWidth}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Grid>
+        <materialDesign:DialogHost DialogClosing="DialogHost_OnDialogClosing"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="16">
+                    <TextBlock Text="{Binding AddProfitCategoryText}"/>
+                    <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch" x:Name="ProfitCategoryText" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsDefault="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean>True</system:Boolean>
+                            </Button.CommandParameter>
+                            ACCEPT
+                        </Button>
+                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
+                            <Button.CommandParameter>
+                                <system:Boolean>False</system:Boolean>
+                            </Button.CommandParameter>
+                            CANCEL
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        
+        <ScrollViewer>
+            <StackPanel>
+                <materialDesign:Card Padding="32" Margin="16">
+                    <StackPanel>
+                        <DockPanel Margin="20">
+                            <ListBox ItemsSource="{Binding ProfitCategories}" HorizontalContentAlignment="Center" />
+                        </DockPanel>
+                        <DockPanel>
+                                <Button Height="50" Width="Auto" Content="{Binding AddProfitCategoryText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                        </DockPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="32" Margin="16">
+                    <StackPanel>
+                        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Margin="10">
+                            <DatePicker materialDesign:HintAssist.Hint="Select date" Name="date" DockPanel.Dock="Left" Width="300" HorizontalContentAlignment="Center" Margin="10"/>
+                            <materialDesign:TimePicker Name="time" DockPanel.Dock="Right" Margin="10" Is24Hours="True" Style="{StaticResource MaterialDesignFloatingHintTimePicker}"/>
+                        </DockPanel>
+                        <DockPanel Margin="20">
+                            <TextBlock Text="{Binding AmountText}" />
+                            <TextBox Name="Amount" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <Button Height="50" Width="Auto" Content="{Binding AddProfitCategoryText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Command="{Binding AddProfitCategory}"/>
+                        </DockPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
+        </ScrollViewer>
+        </materialDesign:DialogHost>
+    </Grid>
+</Window>

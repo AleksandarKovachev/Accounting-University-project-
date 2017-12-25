@@ -52,7 +52,7 @@
                 <materialDesign:Card Padding="32" Margin="16">
                     <StackPanel>
                         <DockPanel Margin="20">
-                            <ListBox ItemsSource="{Binding ProfitCategories}" HorizontalContentAlignment="Center" />
+                                <ListBox ItemsSource="{Binding ProfitCategories}" HorizontalContentAlignment="Center" SelectedItem="{Binding SelectedProfitCategory}" />
                         </DockPanel>
                         <DockPanel>
                                 <Button Height="50" Width="Auto" Content="{Binding AddProfitCategoryText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
@@ -63,15 +63,15 @@
                 <materialDesign:Card Padding="32" Margin="16">
                     <StackPanel>
                         <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Margin="10">
-                            <DatePicker materialDesign:HintAssist.Hint="Select date" Name="date" DockPanel.Dock="Left" Width="300" HorizontalContentAlignment="Center" Margin="10"/>
-                            <materialDesign:TimePicker Name="time" DockPanel.Dock="Right" Margin="10" Is24Hours="True" Style="{StaticResource MaterialDesignFloatingHintTimePicker}"/>
+                            <DatePicker materialDesign:HintAssist.Hint="Select date" Name="Date" DockPanel.Dock="Left" Width="300" HorizontalContentAlignment="Center" Margin="10"/>
+                            <materialDesign:TimePicker Name="Time" DockPanel.Dock="Right" Margin="10" Is24Hours="True" Style="{StaticResource MaterialDesignFloatingHintTimePicker}"/>
                         </DockPanel>
                         <DockPanel Margin="20">
                             <TextBlock Text="{Binding AmountText}" />
                             <TextBox Name="Amount" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center"/>
                         </DockPanel>
                         <DockPanel>
-                            <Button Height="50" Width="Auto" Content="{Binding AddProfitCategoryText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Command="{Binding AddProfitCategory}"/>
+                            <Button Height="50" Width="Auto" Content="{Binding AddProfitCategoryText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Command="{Binding AddProfitBtn}"/>
                         </DockPanel>
                     </StackPanel>
                 </materialDesign:Card>

@@ -24,6 +24,10 @@ namespace Accaunting
         public static string ADD_PROFIT_CATEGORY = "Добави нова категория за приход";
         public static string ADD_PROFIT = "Добави нов приход";
 
+        public static string FIELD_PROFIT_CATEGORY = "Категория на приход";
+        public static string FIELD_DATE = "Дата";
+        public static string FIELD_TIME = "Време";
+
         public static string FIELD_IS_EMPTY = "Полето {0} не е попълнено!";
         public static string MESSAGE_BOX_ERROR = "Грешка";
         public static string MISSING_USER = "Потребител с потребителско име {0} и въведената парола не е намерен!";

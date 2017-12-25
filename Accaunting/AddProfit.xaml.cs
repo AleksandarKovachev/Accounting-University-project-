@@ -20,6 +20,9 @@ namespace Accaunting
 {
     public partial class AddProfit : Window, INotifyPropertyChanged
     {
+
+        private ICommand addProfit;
+
         public AddProfit()
         {
             InitializeComponent();
@@ -29,7 +32,55 @@ namespace Accaunting
             {
                 _ProfitCategories = new ObservableCollection<ProfitCategory>(ctx.ProfitCategories.ToList());
             }
+
+            addProfit = new RelayCommand(AddProfitToDb, param => true);
         }
+
+        private void AddProfitToDb(object obj)
+        {
+            ProfitCategory category = SelectedProfitCategory;
+
+            if (category == null)
+            {
+                System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, Constants.FIELD_PROFIT_CATEGORY), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                if (isValid(Date.Text, Constants.FIELD_DATE) && isValid(Time.Text, Constants.FIELD_TIME) && isValid(Amount.Text, Constants.AMOUNT))
+                {
+                    DateTime date = Date.SelectedDate.Value.Date;
+                    TimeSpan time = Time.SelectedTime.Value.TimeOfDay;
+                    String amount = Amount.Text;
+
+                    DateTime resultDate = date + time;
+
+                    using (var ctx = new UserContext())
+                    {
+                        Profit profit = new Profit()
+                        {
+                            amount = Double.Parse(amount),
+                            date = resultDate,
+                            category = category
+                        };
+                        ctx.Profits.Add(profit);
+                        ctx.SaveChanges();
+                        this.Close();
+                    }
+                }
+            }
+        }
+
+        private bool isValid(string field, string name)
+        {
+            if (string.IsNullOrWhiteSpace(field))
+            {
+                System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, name), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
+        }
+
+        public ProfitCategory SelectedProfitCategory { get; set; }
 
         private IEnumerable<ProfitCategory> _ProfitCategories;
         public IEnumerable<ProfitCategory> ProfitCategories {
@@ -38,6 +89,18 @@ namespace Accaunting
             {
                 _ProfitCategories = value;
                 PropChanged("ProfitCategories");
+            }
+        }
+
+        public ICommand AddProfitBtn
+        {
+            get
+            {
+                return addProfit;
+            }
+            set
+            {
+                addProfit = value;
             }
         }
 

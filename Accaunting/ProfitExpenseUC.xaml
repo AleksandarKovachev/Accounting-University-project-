@@ -8,27 +8,36 @@
              xmlns:local="clr-namespace:Accaunting"
              mc:Ignorable="d">
     <Grid>
-        <DockPanel>
-            <DockPanel DockPanel.Dock="Top">
-                <materialDesign:Card Padding="32" Margin="16">
-                    <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Header}"/>
-                </materialDesign:Card>
-            </DockPanel>
+        <materialDesign:DialogHost
+                                  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <materialDesign:DialogHost.DialogContent>
+                <local:AddProfitExpenseUC x:Name="UserControl"/>
+            </materialDesign:DialogHost.DialogContent>
+            <ScrollViewer>
+                <StackPanel>
+                    <DockPanel>
+                        <DockPanel DockPanel.Dock="Top">
+                            <materialDesign:Card Padding="32" Margin="16">
+                                <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Header}"/>
+                            </materialDesign:Card>
+                        </DockPanel>
 
-            <DockPanel>
-                <materialDesign:Card Padding="32" Margin="16">
-                    <d3:Chart BottomTitle="Argument" LeftTitle="Function" Background="Gray">
-                        <d3:Chart.Title>
-                            <TextBlock HorizontalAlignment="Center" FontSize="18" Margin="0,5,0,5" Text="{Binding Header}"/>
-                        </d3:Chart.Title>
-                        <d3:LineGraph x:Name="LineGraph" Stroke="{Binding StrokeColor}" StrokeThickness="5"/>
-                    </d3:Chart>
-                </materialDesign:Card>
-            </DockPanel>
-        </DockPanel>
-        
-        <Button Style="{DynamicResource MaterialDesignFloatingActionButton}" Command="{Binding AddBtn}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20">
-            <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
-        </Button>
+                        <DockPanel>
+                            <materialDesign:Card Padding="32" Margin="16">
+                                <d3:Chart BottomTitle="Argument" LeftTitle="Function" Background="Gray">
+                                    <d3:Chart.Title>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="18" Margin="0,5,0,5" Text="{Binding Header}"/>
+                                    </d3:Chart.Title>
+                                    <d3:LineGraph x:Name="LineGraph" Stroke="{Binding StrokeColor}" StrokeThickness="5"/>
+                                </d3:Chart>
+                            </materialDesign:Card>
+                        </DockPanel>
+                    </DockPanel>
+                    <Button Style="{DynamicResource MaterialDesignFloatingActionButton}" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20">
+                        <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+                    </Button>
+                </StackPanel>
+            </ScrollViewer>
+        </materialDesign:DialogHost>
     </Grid>
 </UserControl>

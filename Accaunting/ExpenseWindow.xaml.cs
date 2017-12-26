@@ -1,17 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace Accaunting
 {
-    public partial class ProfitWindow : Window
+    public partial class ExpenseWindow : Window
     {
-        private Property loggedUser;
-        private ICommand addProfit;
 
-        public ProfitWindow(Property loggedUser)
+        private ICommand addExpense;
+
+        private Property loggedUser;
+        public ExpenseWindow(Property loggedUser)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -20,35 +29,34 @@ namespace Accaunting
 
             using (var ctx = new UserContext())
             {
-                var dateTimes = ctx.Profits.OrderBy(p => p.date).Select(p => p.date).ToArray();
+                var dateTimes = ctx.Expenses.OrderBy(p => p.date).Select(p => p.date).ToArray();
                 List<Double> x = new List<double>();
-                foreach(DateTime dt in dateTimes)
+                foreach (DateTime dt in dateTimes)
                 {
                     x.Add(dt.AddMinutes(-1).ToOADate());
                 }
-                var y = ctx.Profits.Select(p => p.amount).ToArray();
+                var y = ctx.Expenses.Select(p => p.amount).ToArray();
 
-                ProfitUC.LineGraph.Plot(x, y);
+                ExpenseUC.LineGraph.Plot(x, y);
             }
 
-            addProfit = new RelayCommand(execute: AddProfitInDb, canExecute: param => true);
+            addExpense = new RelayCommand(execute: AddExpenseInDb, canExecute: param => true);
         }
 
-        private void AddProfitInDb(object obj)
+        private void AddExpenseInDb(object obj)
         {
-
-            new AddProfit().Show();
+            new AddExpense().Show();
         }
 
         public ICommand AddBtn
         {
             get
             {
-                return addProfit;
+                return addExpense;
             }
             set
             {
-                addProfit = value;
+                addExpense = value;
             }
         }
 
@@ -65,7 +73,7 @@ namespace Accaunting
         {
             get
             {
-                return Constants.PROFIT;
+                return Constants.EXPENSE;
             }
             set { }
         }
@@ -74,7 +82,7 @@ namespace Accaunting
         {
             get
             {
-                return "#00FF00";
+                return "#FF0000";
             }
             set { }
         }

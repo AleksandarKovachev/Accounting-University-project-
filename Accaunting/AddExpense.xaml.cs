@@ -9,33 +9,32 @@ using System.Windows.Input;
 
 namespace Accaunting
 {
-    public partial class AddProfit : Window, INotifyPropertyChanged
+    public partial class AddExpense : Window, INotifyPropertyChanged
     {
-
         public event PropertyChangedEventHandler PropertyChanged;
-        private ICommand addProfit;
-        private IEnumerable<ProfitCategory> _ProfitCategories;
+        private ICommand addExpense;
+        private IEnumerable<ExpenseCategory> _ExpenseCategories;
 
-        public AddProfit()
+        public AddExpense()
         {
             InitializeComponent();
             this.DataContext = this;
 
             using (var ctx = new UserContext())
             {
-                _ProfitCategories = new ObservableCollection<ProfitCategory>(ctx.ProfitCategories.ToList());
+                _ExpenseCategories = new ObservableCollection<ExpenseCategory>(ctx.ExpenseCategories.ToList());
             }
 
-            addProfit = new RelayCommand(AddProfitToDb, param => true);
+            addExpense = new RelayCommand(AddExpenseToDb, param => true);
 
             UserControl.AddHandler(AddProfitExpenseUC.DialogClose, new RoutedEventHandler(OnDialogClosing));
         }
 
-        private void AddProfitToDb(object obj)
+        private void AddExpenseToDb(object obj)
         {
             if (SelectedCategory == null)
             {
-                System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, Constants.FIELD_PROFIT_CATEGORY), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, Constants.FIELD_EXPENSE_CATEGORY), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
@@ -49,13 +48,13 @@ namespace Accaunting
 
                     using (var ctx = new UserContext())
                     {
-                        Profit profit = new Profit()
+                        Expense expense = new Expense()
                         {
                             amount = Double.Parse(amount),
                             date = resultDate,
                             category_id = SelectedCategory.id
                         };
-                        ctx.Profits.Add(profit);
+                        ctx.Expenses.Add(expense);
                         ctx.SaveChanges();
                         this.Close();
                     }
@@ -73,13 +72,14 @@ namespace Accaunting
             return true;
         }
 
-        public ProfitCategory SelectedCategory { get; set; }
+        public ExpenseCategory SelectedCategory { get; set; }
 
-        public IEnumerable<ProfitCategory> Categories {
-            get { return _ProfitCategories; }
+        public IEnumerable<ExpenseCategory> Categories
+        {
+            get { return _ExpenseCategories; }
             set
             {
-                _ProfitCategories = value;
+                _ExpenseCategories = value;
                 PropChanged("Categories");
             }
         }
@@ -88,11 +88,11 @@ namespace Accaunting
         {
             get
             {
-                return addProfit;
+                return addExpense;
             }
             set
             {
-                addProfit = value;
+                addExpense = value;
             }
         }
 
@@ -105,13 +105,13 @@ namespace Accaunting
             {
                 using (var ctx = new UserContext())
                 {
-                    ProfitCategory category = new ProfitCategory()
+                    ExpenseCategory category = new ExpenseCategory()
                     {
                         name = UserControl.CategoryText.Text
                     };
-                    ctx.ProfitCategories.Add(category);
+                    ctx.ExpenseCategories.Add(category);
                     ctx.SaveChanges();
-                    _ProfitCategories = _ProfitCategories.Concat(new[] { category });
+                    _ExpenseCategories = _ExpenseCategories.Concat(new[] { category });
                     PropChanged("Categories");
                 }
             }
@@ -121,7 +121,7 @@ namespace Accaunting
         {
             get
             {
-                return Constants.ADD_PROFIT_CATEGORY;
+                return Constants.ADD_EXPENSE_CATEGORY;
             }
             set { }
         }
@@ -142,6 +142,5 @@ namespace Accaunting
             }
             set { }
         }
-
     }
 }

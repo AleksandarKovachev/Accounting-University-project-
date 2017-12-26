@@ -36,6 +36,13 @@ namespace Accaunting
         {
         }
 
+        private void Expense_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            new ExpenseWindow(loggedUser).Show();
+            var myWindow = Window.GetWindow(this);
+            myWindow.Close();
+        }
+
         private void Profit_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             new ProfitWindow(loggedUser).Show();

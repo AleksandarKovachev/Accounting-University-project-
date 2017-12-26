@@ -20,11 +20,15 @@ namespace Accaunting
         public static string REGISTRATION = "РЕГИСТРАЦИЯ";
 
         public static string PROFIT = "Приходи";
+        public static string EXPENSE = "Разходи";
         public static string AMOUNT = "Сума";
         public static string ADD_PROFIT_CATEGORY = "Добави нова категория за приход";
+        public static string ADD_EXPENSE_CATEGORY = "Добави нова категория за разход";
         public static string ADD_PROFIT = "Добави нов приход";
+        public static string ADD_EXPENSE = "Добави нов разход";
 
         public static string FIELD_PROFIT_CATEGORY = "Категория на приход";
+        public static string FIELD_EXPENSE_CATEGORY = "Категория на разход";
         public static string FIELD_DATE = "Дата";
         public static string FIELD_TIME = "Време";
 

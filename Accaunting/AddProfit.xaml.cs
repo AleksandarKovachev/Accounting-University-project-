@@ -21,6 +21,7 @@ namespace Accaunting
     public partial class AddProfit : Window, INotifyPropertyChanged
     {
 
+        public event PropertyChangedEventHandler PropertyChanged;
         private ICommand addProfit;
 
         public AddProfit()
@@ -34,11 +35,13 @@ namespace Accaunting
             }
 
             addProfit = new RelayCommand(AddProfitToDb, param => true);
+
+            UserControl.AddHandler(AddProfitExpenseUC.DialogClose, new RoutedEventHandler(OnDialogClosing));
         }
 
         private void AddProfitToDb(object obj)
         {
-            ProfitCategory category = SelectedProfitCategory;
+            ProfitCategory category = SelectedCategory;
 
             if (category == null)
             {
@@ -46,11 +49,11 @@ namespace Accaunting
             }
             else
             {
-                if (isValid(Date.Text, Constants.FIELD_DATE) && isValid(Time.Text, Constants.FIELD_TIME) && isValid(Amount.Text, Constants.AMOUNT))
+                if (isValid(UserControl.Date.Text, Constants.FIELD_DATE) && isValid(UserControl.Time.Text, Constants.FIELD_TIME) && isValid(UserControl.Amount.Text, Constants.AMOUNT))
                 {
-                    DateTime date = Date.SelectedDate.Value.Date;
-                    TimeSpan time = Time.SelectedTime.Value.TimeOfDay;
-                    String amount = Amount.Text;
+                    DateTime date = UserControl.Date.SelectedDate.Value.Date;
+                    TimeSpan time = UserControl.Time.SelectedTime.Value.TimeOfDay;
+                    String amount = UserControl.Amount.Text;
 
                     DateTime resultDate = date + time;
 
@@ -80,19 +83,19 @@ namespace Accaunting
             return true;
         }
 
-        public ProfitCategory SelectedProfitCategory { get; set; }
+        public ProfitCategory SelectedCategory { get; set; }
 
         private IEnumerable<ProfitCategory> _ProfitCategories;
-        public IEnumerable<ProfitCategory> ProfitCategories {
+        public IEnumerable<ProfitCategory> Categories {
             get { return _ProfitCategories; }
             set
             {
                 _ProfitCategories = value;
-                PropChanged("ProfitCategories");
+                PropChanged("Categories");
             }
         }
 
-        public ICommand AddProfitBtn
+        public ICommand AddBtn
         {
             get
             {
@@ -104,35 +107,28 @@ namespace Accaunting
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        private void OnDialogClosing(object sender, RoutedEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
+            DialogClosingEventArgs eventArgs = (DialogClosingEventArgs)e;
+            if (eventArgs.Parameter.Equals(false)) return;
 
-        private void DialogHost_OnDialogClosing(object sender, DialogClosingEventArgs eventArgs)
-        {
-            if(!Equals(eventArgs.Parameter, true)) return;
-
-            if (!string.IsNullOrWhiteSpace(ProfitCategoryText.Text))
+            if (!string.IsNullOrWhiteSpace(UserControl.CategoryText.Text))
             {
                 using (var ctx = new UserContext())
                 {
                     ProfitCategory category = new ProfitCategory()
                     {
-                        name = ProfitCategoryText.Text
+                        name = UserControl.CategoryText.Text
                     };
                     ctx.ProfitCategories.Add(category);
                     ctx.SaveChanges();
                     _ProfitCategories = _ProfitCategories.Concat(new[] { category });
-                    PropChanged("ProfitCategories");
+                    PropChanged("Categories");
                 }
             }
         }
 
-        public string AddProfitCategoryText
+        public string AddCategoryText
         {
             get
             {

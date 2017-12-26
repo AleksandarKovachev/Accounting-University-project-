@@ -16,7 +16,7 @@ namespace Accaunting
         public string password { get; set; }
         public string email { get; set; }
         public DateTime createDate { get; set; }
-        public UserType userType { get; set; }
+        public int userType_id { get; set; }
         public override string ToString() { return this.username; }
     }
 }

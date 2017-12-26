@@ -46,7 +46,7 @@ namespace Accaunting
                             username = username,
                             password = password,
                             email = email,
-                            userType = userType,
+                            userType_id = userType.id,
                             createDate = DateTime.Now
                         };
                         ctx.Users.Add(user);

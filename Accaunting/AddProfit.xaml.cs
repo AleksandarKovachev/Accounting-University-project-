@@ -52,7 +52,7 @@ namespace Accaunting
                         {
                             amount = Double.Parse(amount),
                             date = resultDate,
-                            category = SelectedCategory
+                            category_id = SelectedCategory.id
                         };
                         ctx.Profits.Add(profit);
                         ctx.SaveChanges();

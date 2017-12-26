@@ -4,17 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Accaunting
 {
@@ -41,9 +32,7 @@ namespace Accaunting
 
         private void AddProfitToDb(object obj)
         {
-            ProfitCategory category = SelectedCategory;
-
-            if (category == null)
+            if (SelectedCategory == null)
             {
                 System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, Constants.FIELD_PROFIT_CATEGORY), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -63,7 +52,7 @@ namespace Accaunting
                         {
                             amount = Double.Parse(amount),
                             date = resultDate,
-                            category = category
+                            category = SelectedCategory
                         };
                         ctx.Profits.Add(profit);
                         ctx.SaveChanges();

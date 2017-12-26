@@ -20,9 +20,18 @@ namespace Accaunting
             this.WindowState = WindowState.Maximized;
             this.loggedUser = loggedUser;
 
-            var x = Enumerable.Range(0, 1001).Select(i => i / 10.0).ToArray();
-            var y = x.Select(v => Math.Abs(v) < 1e-10 ? 1 : Math.Sin(v) / v).ToArray();
-            linegraph.Plot(x, y);
+            using (var ctx = new UserContext())
+            {
+                var dateTimes = ctx.Profits.OrderBy(p => p.date).Select(p => p.date).ToArray();
+                List<Double> x = new List<double>();
+                foreach(DateTime dt in dateTimes)
+                {
+                    x.Add(dt.AddMinutes(-1).ToOADate());
+                }
+                var y = ctx.Profits.Select(p => p.amount).ToArray();
+
+                linegraph.Plot(x, y);
+            }
 
             addProfit = new RelayCommand(execute: AddProfitInDbAsync, canExecute: param => true);
         }

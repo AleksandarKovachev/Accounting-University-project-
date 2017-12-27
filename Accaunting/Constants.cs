@@ -27,6 +27,8 @@ namespace Accaunting
         public static string ADD_PROFIT = "Добави нов приход";
         public static string ADD_EXPENSE = "Добави нов разход";
 
+        public static string CLOSE = "ЗАТВОРИ";
+
         public static string FIELD_PROFIT_CATEGORY = "Категория на приход";
         public static string FIELD_EXPENSE_CATEGORY = "Категория на разход";
         public static string FIELD_DATE = "Дата";

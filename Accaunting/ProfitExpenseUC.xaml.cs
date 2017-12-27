@@ -7,6 +7,6 @@ namespace Accaunting
         public ProfitExpenseUC()
         {
             InitializeComponent();
-        }
+        }        
     }
 }

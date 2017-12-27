@@ -14,7 +14,10 @@
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel>
                     <local:AddProfitExpenseUC x:Name="UserControl"/>
-                    <Button Height="50" Width="Auto" Content="{Binding AddCategoryText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Command="{Binding CloseDialog}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button Height="50" Width="Auto" Margin="10" Content="{Binding AddCategoryText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Command="{Binding CloseDialog}"/>
+                        <Button Height="50" Width="Auto" Margin="10" Command="materialDesign:DialogHost.CloseDialogCommand" Content="{Binding CloseDialogTxt}"/>
+                    </StackPanel>
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
             <DockPanel>

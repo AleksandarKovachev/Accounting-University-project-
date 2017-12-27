@@ -145,6 +145,15 @@ namespace Accaunting
             set { }
         }
 
+        public string CloseDialogTxt
+        {
+            get
+            {
+                return Constants.CLOSE;
+            }
+            set { }
+        }
+
         public void PropChanged(String propertyName)
         {
             if (PropertyChanged != null)

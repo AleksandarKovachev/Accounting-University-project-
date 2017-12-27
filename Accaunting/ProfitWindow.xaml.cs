@@ -134,6 +134,15 @@ namespace Accaunting
             }
         }
 
+        public string CloseDialogTxt
+        {
+            get
+            {
+                return Constants.CLOSE;
+            }
+            set { }
+        }
+
         public string AddCategoryText
         {
             get

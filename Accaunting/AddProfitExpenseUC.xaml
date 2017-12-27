@@ -59,9 +59,7 @@
                                 <TextBlock Text="{Binding AmountText}" />
                                 <TextBox Name="Amount" PreviewTextInput="NumberValidationTextBox" HorizontalContentAlignment="Center"/>
                             </DockPanel>
-                            <DockPanel>
-                                <Button Height="50" Width="Auto" Content="{Binding AddCategoryText}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Command="{Binding AddBtn}"/>
-                            </DockPanel>
+                            
                         </StackPanel>
                     </materialDesign:Card>
                 </StackPanel>

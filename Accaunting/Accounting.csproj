@@ -111,12 +111,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddExpense.xaml.cs">
-      <DependentUpon>AddExpense.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AddProfit.xaml.cs">
-      <DependentUpon>AddProfit.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AddProfitExpenseUC.xaml.cs">
       <DependentUpon>AddProfitExpenseUC.xaml</DependentUpon>
     </Compile>
@@ -158,14 +152,6 @@
     <Compile Include="User.cs" />
     <Compile Include="UserContext.cs" />
     <Compile Include="UserType.cs" />
-    <Page Include="AddExpense.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AddProfit.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AddProfitExpenseUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

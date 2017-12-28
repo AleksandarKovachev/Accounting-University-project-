@@ -36,7 +36,7 @@ namespace Accaunting
             {
                 if(userType == null)
                 {
-                    System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, Constants.USER_TYPE), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                    System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, Constants.TYPE), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
                 } else
                 {
                     using (var ctx = new UserContext())
@@ -154,7 +154,7 @@ namespace Accaunting
         {
             get
             {
-                return Constants.USER_TYPE;
+                return Constants.TYPE;
             }
             set { }
         }

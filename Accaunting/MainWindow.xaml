@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialMenu="clr-namespace:MaterialMenu;assembly=MaterialMenu"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
         xmlns:local="clr-namespace:Accaunting"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -27,11 +27,47 @@
             <local:Menu/>
         </DockPanel>
 
-        <StackPanel Grid.Column="1">
-            <materialDesign:Card Padding="32" Margin="16">
-                <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Header}"/>
-            </materialDesign:Card>
-        </StackPanel>
-        
+        <ScrollViewer Grid.Column="1">
+            <StackPanel>
+                <materialDesign:Card Padding="32" Margin="16">
+                    <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Header}"/>
+                </materialDesign:Card>
+
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:Card Padding="32" Margin="16">
+                        <DockPanel>
+                            <DockPanel DockPanel.Dock="Top">
+                                <StackPanel Margin="10" Width="200">
+                                    <TextBlock Text="{Binding TypeText}"/>
+                                    <ComboBox x:Name="TypeComboBox" ItemsSource="{Binding TypeList}" SelectedItem="{Binding SelectedType}" SelectionChanged="TypeComboBox_SelectionChanged"/>
+                                </StackPanel>
+                                <StackPanel Margin="10" Width="200">
+                                    <TextBlock Text="{Binding CategoryText}"/>
+                                    <ComboBox x:Name="CategoryComboBox" ItemsSource="{Binding CategoryList}"/>
+                                </StackPanel>
+                                <DockPanel>
+                                    <Button Margin="10" Content="{Binding ShowDataButton}"/>
+                                </DockPanel>
+                            </DockPanel>
+
+                            <DockPanel DockPanel.Dock="Bottom">
+                                <d3:Chart BottomTitle="Дата" LeftTitle="Сума" Background="Gray" Width="550" Height="550">
+                                    <d3:Chart.Title>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="18" Margin="0,5,0,5" Text="{Binding Header}"/>
+                                    </d3:Chart.Title>
+                                    <d3:LineGraph x:Name="LineGraph" Stroke="{Binding StrokeColor}" StrokeThickness="5"/>
+                                </d3:Chart>
+                            </DockPanel>
+
+                        </DockPanel>
+                    </materialDesign:Card>
+
+                    <materialDesign:Card Padding="32" Margin="0, 16, 16, 16">
+                        <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Header}"/>
+                    </materialDesign:Card>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

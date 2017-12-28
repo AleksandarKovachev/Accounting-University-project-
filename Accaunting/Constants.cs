@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Accaunting
+﻿namespace Accaunting
 {
     class Constants
     {
@@ -15,10 +9,13 @@ namespace Accaunting
         public static string USERNAME = "Потребителско име";
         public static string PASSWORD = "Парола";
         public static string EMAIL = "Имейл";
-        public static string USER_TYPE = "Тип";
+        public static string TYPE = "Тип";
+        public static string CATEGORY = "Категория";
+        public static string SHOW = "Покажи";
         public static string LOGIN = "ВХОД";
         public static string REGISTRATION = "РЕГИСТРАЦИЯ";
 
+        public static string ALL_DATA = "Всички";
         public static string PROFIT = "Приходи";
         public static string EXPENSE = "Разходи";
         public static string AMOUNT = "Сума";

@@ -13,7 +13,6 @@ namespace Accaunting
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private ICommand addExpense;
         private IEnumerable<ExpenseCategory> _ExpenseCategories;
         private ICommand closeDialog;
 

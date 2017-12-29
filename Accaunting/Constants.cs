@@ -15,6 +15,8 @@
         public static string LOGIN = "ВХОД";
         public static string REGISTRATION = "РЕГИСТРАЦИЯ";
 
+        public static string Activity = "Активност";
+
         public static string ALL_DATA = "Всички";
         public static string PROFIT = "Приходи";
         public static string EXPENSE = "Разходи";
@@ -34,5 +36,6 @@
         public static string FIELD_IS_EMPTY = "Полето {0} не е попълнено!";
         public static string MESSAGE_BOX_ERROR = "Грешка";
         public static string MISSING_USER = "Потребител с потребителско име {0} и въведената парола не е намерен!";
+
     }
 }

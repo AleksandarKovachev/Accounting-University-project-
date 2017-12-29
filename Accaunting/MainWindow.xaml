@@ -63,7 +63,28 @@
                     </materialDesign:Card>
 
                     <materialDesign:Card Padding="32" Margin="0, 16, 16, 16">
-                        <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Header}"/>
+                        <StackPanel>
+                            <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Activity}"/>
+                            <ComboBox ItemsSource="{Binding ActivityType}" />
+                            <ListView Margin="10" ItemsSource="{Binding Activities}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding type}" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding dateTime}"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <TextBlock Text="{Binding category}"/>
+                                                <TextBlock Text=" - "/>
+                                                <TextBlock Text="{Binding amount}"/>
+                                                <TextBlock Text=" лева"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
                     </materialDesign:Card>
                 </StackPanel>
 

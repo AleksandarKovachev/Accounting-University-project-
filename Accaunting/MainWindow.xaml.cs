@@ -17,6 +17,7 @@ namespace Accaunting
         private List<ExpenseCategory> expenseCategories;
         private List<ProfitCategory> profitCategories;
         private List<string> allList;
+        private List<Activity> activities;
 
         public MainWindow()
         {
@@ -40,6 +41,9 @@ namespace Accaunting
                 var y = x.Select(v => Math.Abs(v) < 1e-10 ? 1 : Math.Sin(v) / v).ToArray();
 
                 LineGraph.Plot(x, y);
+
+                activities = new List<Activity>();
+                activities.Add(new Activity() { dateTime = DateTime.Now, amount = 20, category = "храна", type = Constants.EXPENSE });
             }
 
             typeList = new List<string>()
@@ -79,6 +83,12 @@ namespace Accaunting
                 categoryList = allList;
                 PropChanged("CategoryList");
             }
+        }
+
+        public List<Activity> Activities
+        {
+            get { return activities; }
+            set { activities = value; }
         }
 
         public List<string> TypeList
@@ -128,6 +138,15 @@ namespace Accaunting
             get
             {
                 return Constants.SHOW;
+            }
+            set { }
+        }
+
+        public string Activity
+        {
+            get
+            {
+                return Constants.Activity;
             }
             set { }
         }

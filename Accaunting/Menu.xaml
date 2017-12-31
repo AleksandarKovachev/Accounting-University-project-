@@ -22,7 +22,6 @@
                             </Grid>
                         </Border>
                         <materialMenu:MenuButton Text="Преглед" MouseDown="Overview_OnMouseDown"/>
-                        <materialMenu:MenuButton Text="Баланс"/>
                         <materialMenu:MenuButton Text="Приходи" MouseDown="Profit_OnMouseDown"/>
                         <materialMenu:MenuButton Text="Разходи" MouseDown="Expense_OnMouseDown"/>
                         <materialMenu:MenuButton Text="Изход" MouseDown="Logout_OnMouseDown"/>

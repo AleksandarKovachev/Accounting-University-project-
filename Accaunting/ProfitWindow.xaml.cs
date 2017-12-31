@@ -15,6 +15,7 @@ namespace Accaunting
         public event PropertyChangedEventHandler PropertyChanged;
         private IEnumerable<ProfitCategory> _ProfitCategories;
         private ICommand closeDialog;
+        private User user;
 
         public ProfitWindow(Property loggedUser)
         {
@@ -25,6 +26,8 @@ namespace Accaunting
 
             using (var ctx = new UserContext())
             {
+                user = ctx.Users.Where(p => p.username.Equals(loggedUser.value)).SingleOrDefault();
+
                 var dateTimes = ctx.Profits.OrderBy(p => p.date).Select(p => p.date).ToArray();
                 List<Double> x = new List<double>();
                 foreach(DateTime dt in dateTimes)
@@ -34,6 +37,7 @@ namespace Accaunting
                 var y = ctx.Profits.Select(p => p.amount).ToArray();
 
                 ProfitUC.LineGraph.Plot(x, y);
+
 
                 _ProfitCategories = new ObservableCollection<ProfitCategory>(ctx.ProfitCategories.ToList());
             }
@@ -100,7 +104,8 @@ namespace Accaunting
                         {
                             amount = Double.Parse(amount),
                             date = resultDate,
-                            category_id = SelectedCategory.id
+                            category_id = SelectedCategory.id,
+                            user_id = user.id
                         };
                         ctx.Profits.Add(profit);
                         ctx.SaveChanges();
@@ -139,6 +144,15 @@ namespace Accaunting
             get
             {
                 return Constants.CLOSE;
+            }
+            set { }
+        }
+
+        public string AddProfitExpenseText
+        {
+            get
+            {
+                return Constants.ADD_PROFIT;
             }
             set { }
         }

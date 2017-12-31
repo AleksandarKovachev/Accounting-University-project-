@@ -15,8 +15,9 @@ namespace Accaunting
         public event PropertyChangedEventHandler PropertyChanged;
         private IEnumerable<ExpenseCategory> _ExpenseCategories;
         private ICommand closeDialog;
-
+        private User user;
         private Property loggedUser;
+
         public ExpenseWindow(Property loggedUser)
         {
             InitializeComponent();
@@ -26,6 +27,8 @@ namespace Accaunting
 
             using (var ctx = new UserContext())
             {
+                user = ctx.Users.Where(p => p.username.Equals(loggedUser.value)).SingleOrDefault();
+
                 var dateTimes = ctx.Expenses.OrderBy(p => p.date).Select(p => p.date).ToArray();
                 List<Double> x = new List<double>();
                 foreach (DateTime dt in dateTimes)
@@ -79,7 +82,8 @@ namespace Accaunting
                         {
                             amount = Double.Parse(amount),
                             date = resultDate,
-                            category_id = SelectedCategory.id
+                            category_id = SelectedCategory.id,
+                            user_id = user.id
                         };
                         ctx.Expenses.Add(expense);
                         ctx.SaveChanges();
@@ -133,6 +137,15 @@ namespace Accaunting
                     PropChanged("Categories");
                 }
             }
+        }
+
+        public string AddProfitExpenseText
+        {
+            get
+            {
+                return Constants.ADD_EXPENSE;
+            }
+            set { }
         }
 
         public string AddCategoryText

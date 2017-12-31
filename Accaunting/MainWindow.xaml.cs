@@ -22,6 +22,7 @@ namespace Accaunting
         private List<ProfitCategory> profitCategories;
         private List<string> allList;
         private List<Activity> activities;
+        private List<Activity> profitExpenses;
         private List<Activity> profitActivities;
         private List<Activity> expenseActivities;
         private List<string> periodList;
@@ -66,6 +67,7 @@ namespace Accaunting
                 activities.AddRange(profitActivities);
                 activities.AddRange(expenseActivities);
                 activities = activities.OrderBy(a => a.dateTime).ToList();
+                profitExpenses = activities;
             }
 
             typeList = new List<string>()
@@ -84,7 +86,6 @@ namespace Accaunting
             {
                 Constants.ALL_DATA,
                 Constants.PERIOD_DAY,
-                Constants.PERIOD_WEEK,
                 Constants.PERIOD_MONTH,
                 Constants.PERIOD_YEAR
             };
@@ -92,42 +93,100 @@ namespace Accaunting
             categoryList = allList;
 
             SelectedType = Constants.ALL_DATA;
-            CategoryComboBox.SelectedIndex = 0;
+            SelectedCategory = Constants.ALL_DATA;
+            SelectedPeriod = Constants.ALL_DATA;
 
-            List<double> profitX = new List<double>();
-            List<double> profitY = new List<double>();
-            foreach (Activity activity in Activities.Where(a => a.type.Equals(Constants.PROFIT)))
-            {
-                profitX.Add(activity.dateTime.AddMinutes(-1).ToOADate());
-                profitY.Add(activity.amount);
-            }
-
-            List<double> expenseX = new List<double>();
-            List<double> expenseY = new List<double>();
-            foreach (Activity activity in Activities.Where(a => a.type.Equals(Constants.EXPENSE)))
-            {
-                expenseX.Add(activity.dateTime.AddMinutes(-1).ToOADate());
-                expenseY.Add(activity.amount);
-            }
-
-            var profitLine = new LineGraph();
-            lines.Children.Add(profitLine);
-            profitLine.Stroke = new SolidColorBrush(Colors.Blue);
-            profitLine.StrokeThickness = 2;
-            profitLine.Plot(profitX, profitY);
-
-            var expenseLine = new LineGraph();
-            lines.Children.Add(expenseLine);
-            expenseLine.Stroke = new SolidColorBrush(Colors.Red);
-            expenseLine.StrokeThickness = 2;
-            expenseLine.Plot(expenseX, expenseY);
+            chartData(activities, activities);
 
             showDataButton = new RelayCommand(ShowData, p => true);
         }
 
         private void ShowData(object obj)
         {
-            
+            lines.Children.Clear();
+
+            if (SelectedType.Equals(Constants.PROFIT))
+            {
+                if (!SelectedCategory.Equals(Constants.ALL_DATA))
+                {
+                    List<Activity> profits = profitActivities.Where(p => p.category.Equals(SelectedCategory)).ToList();
+                    profits = filterPeriod(profits);
+                    chartData(profits, null);
+                }
+                else
+                {
+                    chartData(filterPeriod(profitActivities), null);
+                }
+            } else if (SelectedType.Equals(Constants.EXPENSE)) {
+                if (!SelectedCategory.Equals(Constants.ALL_DATA))
+                {
+                    List<Activity> expenses = expenseActivities.Where(p => p.category.Equals(SelectedCategory)).ToList();
+                    expenses = filterPeriod(expenses);
+                    chartData(null, expenses);
+                }
+                else
+                {
+                    chartData(null, filterPeriod(expenseActivities));
+                }
+            } else
+            {
+                List<Activity> filteredProfitExpenses = filterPeriod(profitExpenses);
+                chartData(filteredProfitExpenses, filteredProfitExpenses);
+            }
+        }
+
+        private List<Activity> filterPeriod(List<Activity> activities)
+        {
+            if (SelectedPeriod.Equals(Constants.PERIOD_DAY))
+            {
+                return activities.Where(p => p.dateTime.Day == DateTime.Now.Day).ToList();
+            }
+            else if (SelectedPeriod.Equals(Constants.PERIOD_MONTH))
+            {
+                return activities.Where(p => p.dateTime.Month == DateTime.Now.Month).ToList();
+            }
+            else if (SelectedPeriod.Equals(Constants.PERIOD_YEAR))
+            {
+                return activities.Where(p => p.dateTime.Year == DateTime.Now.Year).ToList();
+            }
+            return activities;
+        }
+
+        private void chartData(List<Activity> profits, List<Activity> expenses)
+        {
+            if (profits != null)
+            {
+                List<double> profitX = new List<double>();
+                List<double> profitY = new List<double>();
+                foreach (Activity activity in profits.Where(a => a.type.Equals(Constants.PROFIT)))
+                {
+                    profitX.Add(activity.dateTime.AddMinutes(-1).ToOADate());
+                    profitY.Add(activity.amount);
+                }
+
+                var profitLine = new LineGraph();
+                lines.Children.Add(profitLine);
+                profitLine.Stroke = new SolidColorBrush(Colors.Blue);
+                profitLine.StrokeThickness = 2;
+                profitLine.Plot(profitX, profitY);
+            }
+
+            if (expenses != null)
+            {
+                List<double> expenseX = new List<double>();
+                List<double> expenseY = new List<double>();
+                foreach (Activity activity in expenses.Where(a => a.type.Equals(Constants.EXPENSE)))
+                {
+                    expenseX.Add(activity.dateTime.AddMinutes(-1).ToOADate());
+                    expenseY.Add(activity.amount);
+                }
+
+                var expenseLine = new LineGraph();
+                lines.Children.Add(expenseLine);
+                expenseLine.Stroke = new SolidColorBrush(Colors.Red);
+                expenseLine.StrokeThickness = 2;
+                expenseLine.Plot(expenseX, expenseY);
+            }
         }
 
         private void ActivityTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -169,6 +228,7 @@ namespace Accaunting
                 categoryList = allList;
                 PropChanged("CategoryList");
             }
+            CategoryComboBox.SelectedItem = Constants.ALL_DATA;
         }
 
         public ICommand ShowDataButton
@@ -203,6 +263,8 @@ namespace Accaunting
         }
 
         public string SelectedType { get; set; }
+        public string SelectedCategory { get; set; }
+        public string SelectedPeriod { get; set; }
 
         public string Header
         {

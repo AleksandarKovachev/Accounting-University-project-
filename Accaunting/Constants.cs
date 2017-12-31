@@ -18,7 +18,6 @@
         public static string PERIOD = "Период";
         public static string PERIOD_YEAR = "Година";
         public static string PERIOD_MONTH = "Месец";
-        public static string PERIOD_WEEK = "Седмица";
         public static string PERIOD_DAY = "Ден";
 
         public static string Activity = "Активност";

@@ -22,6 +22,8 @@
 
         public static string Activity = "Активност";
 
+        public static string DATE = "Дата";
+
         public static string ALL_DATA = "Всички";
         public static string PROFIT = "Приходи";
         public static string EXPENSE = "Разходи";

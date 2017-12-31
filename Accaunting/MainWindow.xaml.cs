@@ -1,7 +1,12 @@
 ﻿using InteractiveDataDisplay.WPF;
+using PdfSharp;
+using PdfSharp.Charting;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,6 +33,7 @@ namespace Accaunting
         private List<string> periodList;
         private ICommand showDataButton;
         private User user;
+        private ICommand document;
 
         public MainWindow()
         {
@@ -99,6 +105,104 @@ namespace Accaunting
             chartData(activities, activities);
 
             showDataButton = new RelayCommand(ShowData, p => true);
+            document = new RelayCommand(ShowDocument, p => true);
+        }
+
+        private void ShowDocument(object obj)
+        {
+            PdfDocument document = new PdfDocument();
+            XPdfFontOptions options = new XPdfFontOptions(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
+            XFont font = new XFont("Times New Roman", 20, XFontStyle.Regular, options);
+
+            PdfPage page = document.AddPage();
+            page.Size = PageSize.A4;
+
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+
+            gfx.DrawString(Constants.HEADER, font, XBrushes.Black,
+                new XRect(0, 0, page.Width, page.Height), XStringFormats.TopCenter);
+
+            ChartFrame chartFrame = new ChartFrame();
+            chartFrame.Location = new XPoint(40, 100);
+            chartFrame.Size = new XSize(500, 600);
+            chartFrame.Add(LineChart());
+            chartFrame.Draw(gfx);
+
+            const string filename = "Accounting.pdf";
+            document.Save(filename);
+            Process.Start(filename);
+        }
+
+        public PdfSharp.Charting.Chart LineChart()
+        {
+            List<Activity> filteredProfitExpenses;
+            if (SelectedType.Equals(Constants.PROFIT))
+            {
+                if (!SelectedCategory.Equals(Constants.ALL_DATA))
+                {
+                    List<Activity> profits = profitActivities.Where(p => p.category.Equals(SelectedCategory)).ToList();
+                    filteredProfitExpenses = filterPeriod(profits);
+                }
+                else
+                {
+                    filteredProfitExpenses = filterPeriod(profitActivities);
+                }
+            }
+            else if (SelectedType.Equals(Constants.EXPENSE))
+            {
+                if (!SelectedCategory.Equals(Constants.ALL_DATA))
+                {
+                    List<Activity> expenses = expenseActivities.Where(p => p.category.Equals(SelectedCategory)).ToList();
+                    filteredProfitExpenses = filterPeriod(expenses);
+                }
+                else
+                {
+                    filteredProfitExpenses = filterPeriod(expenseActivities);
+                }
+            }
+            else
+            {
+                filteredProfitExpenses = filterPeriod(profitExpenses);
+            }
+
+            PdfSharp.Charting.Chart chart = new PdfSharp.Charting.Chart(ChartType.Line);
+            Series series;
+            if (filteredProfitExpenses.Find(o => o.type.Equals(Constants.PROFIT)) != null)
+            {
+                series = chart.SeriesCollection.AddSeries();
+                series.Name = "Profit";
+                series.Add(filteredProfitExpenses
+                    .Where(o => o.type.Equals(Constants.PROFIT)).ToList()
+                    .ConvertAll(o => o.amount).ToArray());
+            }
+
+            if (filteredProfitExpenses.Find(o => o.type.Equals(Constants.EXPENSE)) != null)
+            {
+                series = chart.SeriesCollection.AddSeries();
+                series.Name = "Expense";
+                series.Add(filteredProfitExpenses
+                    .Where(o => o.type.Equals(Constants.EXPENSE)).ToList()
+                    .ConvertAll(o => o.amount).ToArray());
+            }
+
+            chart.XAxis.MajorTickMark = TickMarkType.Outside;
+            chart.XAxis.Title.Caption = "Date";
+
+            chart.YAxis.MajorTickMark = TickMarkType.Outside;
+            chart.YAxis.Title.Caption = "Amount";
+            chart.YAxis.HasMajorGridlines = true;
+
+            chart.PlotArea.LineFormat.Color = XColors.DarkGray;
+            chart.PlotArea.LineFormat.Width = 1;
+            chart.PlotArea.LineFormat.Visible = true;
+
+            chart.Legend.Docking = DockingType.Bottom;
+            chart.Legend.LineFormat.Visible = true;
+
+            XSeries xseries = chart.XValues.AddXSeries();
+            xseries.Add(filteredProfitExpenses.ConvertAll(o => o.dateTime.ToShortDateString()).ToArray());
+
+            return chart;
         }
 
         private void ShowData(object obj)
@@ -166,7 +270,7 @@ namespace Accaunting
 
                 var profitLine = new LineGraph();
                 lines.Children.Add(profitLine);
-                profitLine.Stroke = new SolidColorBrush(Colors.Blue);
+                profitLine.Stroke = new SolidColorBrush(Colors.Green);
                 profitLine.StrokeThickness = 2;
                 profitLine.Plot(profitX, profitY);
             }
@@ -231,6 +335,12 @@ namespace Accaunting
             CategoryComboBox.SelectedItem = Constants.ALL_DATA;
         }
 
+        public ICommand Document
+        {
+            get { return document; }
+            set { document = value; }
+        }
+
         public ICommand ShowDataButton
         {
             get { return showDataButton; }
@@ -271,6 +381,24 @@ namespace Accaunting
             get
             {
                 return Constants.HEADER;
+            }
+            set { }
+        }
+
+        public string DateText
+        {
+            get
+            {
+                return Constants.DATE;
+            }
+            set { }
+        }
+
+        public string AmountText
+        {
+            get
+            {
+                return Constants.AMOUNT;
             }
             set { }
         }

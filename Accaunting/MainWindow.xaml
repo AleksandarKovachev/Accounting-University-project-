@@ -59,7 +59,7 @@
                             </DockPanel>
 
                             <DockPanel DockPanel.Dock="Bottom">
-                                <d3:Chart BottomTitle="Дата" LeftTitle="Сума" Background="Gray" Width="600" Height="600">
+                                <d3:Chart BottomTitle="{Binding DateText}" LeftTitle="{Binding AmountText}" Background="Gray" Width="600" Height="600">
                                     <d3:Chart.Title>
                                         <TextBlock HorizontalAlignment="Center" FontSize="18" Margin="0,5,0,5" Text="{Binding Header}"/>
                                     </d3:Chart.Title>
@@ -110,5 +110,11 @@
 
             </StackPanel>
         </ScrollViewer>
+
+        <DockPanel Grid.Column="1">
+            <Button Style="{DynamicResource MaterialDesignFloatingActionButton}" Command="{Binding Document}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20">
+                <materialDesign:PackIcon Kind="FileDocument" Height="24" Width="24" />
+            </Button>
+        </DockPanel>
     </Grid>
 </Window>

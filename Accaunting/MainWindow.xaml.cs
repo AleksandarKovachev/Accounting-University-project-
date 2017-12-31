@@ -18,6 +18,8 @@ namespace Accaunting
         private List<ProfitCategory> profitCategories;
         private List<string> allList;
         private List<Activity> activities;
+        private List<Activity> profitActivities;
+        private List<Activity> expenseActivities;
 
         public MainWindow()
         {
@@ -43,7 +45,24 @@ namespace Accaunting
                 LineGraph.Plot(x, y);
 
                 activities = new List<Activity>();
-                activities.Add(new Activity() { dateTime = DateTime.Now, amount = 20, category = "храна", type = Constants.EXPENSE });
+                profitActivities = new List<Activity>();
+                expenseActivities = new List<Activity>();
+
+                foreach (Profit profit in ctx.Profits.OrderBy(p => p.date))
+                {
+                    ProfitCategory profitCategory = ctx.ProfitCategories.Where(p => p.id == profit.category_id).SingleOrDefault();
+                    profitActivities.Add(new Activity() { dateTime = profit.date, amount = profit.amount, type = Constants.PROFIT, category = profitCategory.name });
+                }
+
+                foreach (Expense expense in ctx.Expenses.OrderBy(e => e.date))
+                {
+                    ExpenseCategory expenseCategory = ctx.ExpenseCategories.Where(e => e.id == expense.category_id).SingleOrDefault();
+                    expenseActivities.Add(new Activity() { dateTime = expense.date, amount = expense.amount, type = Constants.EXPENSE, category = expenseCategory.name });
+                }
+
+                activities.AddRange(profitActivities);
+                activities.AddRange(expenseActivities);
+                activities = activities.OrderBy(a => a.dateTime).ToList();
             }
 
             typeList = new List<string>()
@@ -62,6 +81,26 @@ namespace Accaunting
 
             SelectedType = Constants.ALL_DATA;
             CategoryComboBox.SelectedIndex = 0;
+        }
+        
+        private void ActivityTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ActivityTypeComboBox.SelectedItem.Equals(Constants.PROFIT))
+            {
+                activities = profitActivities;
+                PropChanged("Activities");
+            } else if (ActivityTypeComboBox.SelectedItem.Equals(Constants.EXPENSE))
+            {
+                activities = expenseActivities;
+                PropChanged("Activities");
+            } else
+            {
+                activities.Clear();
+                activities.AddRange(profitActivities);
+                activities.AddRange(expenseActivities);
+                activities = activities.OrderBy(a => a.dateTime).ToList();
+                PropChanged("Activities");
+            }
         }
 
         private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

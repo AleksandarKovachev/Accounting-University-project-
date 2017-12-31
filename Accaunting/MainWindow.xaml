@@ -65,7 +65,7 @@
                     <materialDesign:Card Padding="32" Margin="0, 16, 16, 16">
                         <StackPanel>
                             <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignTitleTextBlock}" Text="{Binding Activity}"/>
-                            <ComboBox ItemsSource="{Binding ActivityType}" />
+                            <ComboBox ItemsSource="{Binding TypeList}" SelectedIndex="0" x:Name="ActivityTypeComboBox" SelectionChanged="ActivityTypeComboBox_SelectionChanged" />
                             <ListView Margin="10" ItemsSource="{Binding Activities}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>

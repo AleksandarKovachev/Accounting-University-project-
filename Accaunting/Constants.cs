@@ -15,6 +15,12 @@
         public static string LOGIN = "ВХОД";
         public static string REGISTRATION = "РЕГИСТРАЦИЯ";
 
+        public static string PERIOD = "Период";
+        public static string PERIOD_YEAR = "Година";
+        public static string PERIOD_MONTH = "Месец";
+        public static string PERIOD_WEEK = "Седмица";
+        public static string PERIOD_DAY = "Ден";
+
         public static string Activity = "Активност";
 
         public static string ALL_DATA = "Всички";

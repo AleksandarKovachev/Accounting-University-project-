@@ -1,9 +1,13 @@
-﻿using System;
+﻿using InteractiveDataDisplay.WPF;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Accaunting
 {
@@ -20,6 +24,9 @@ namespace Accaunting
         private List<Activity> activities;
         private List<Activity> profitActivities;
         private List<Activity> expenseActivities;
+        private List<string> periodList;
+        private ICommand showDataButton;
+        private User user;
 
         public MainWindow()
         {
@@ -30,31 +37,27 @@ namespace Accaunting
             using (var ctx = new UserContext())
             {
                 loggedUser = ctx.Properties.Where(p => p.key == PropertyConstants.LOGGED_USER).SingleOrDefault();
-                if(loggedUser.value == null)
+                if (loggedUser.value == null)
                 {
                     new Login().Show();
                     this.Close();
                 }
 
+                user = ctx.Users.Where(u => u.username.Equals(loggedUser.value)).SingleOrDefault();
                 expenseCategories = new List<ExpenseCategory>(ctx.ExpenseCategories.ToList());
                 profitCategories = new List<ProfitCategory>(ctx.ProfitCategories.ToList());
-
-                var x = Enumerable.Range(0, 1001).Select(i => i / 10.0).ToArray();
-                var y = x.Select(v => Math.Abs(v) < 1e-10 ? 1 : Math.Sin(v) / v).ToArray();
-
-                LineGraph.Plot(x, y);
 
                 activities = new List<Activity>();
                 profitActivities = new List<Activity>();
                 expenseActivities = new List<Activity>();
 
-                foreach (Profit profit in ctx.Profits.OrderBy(p => p.date))
+                foreach (Profit profit in ctx.Profits.Where(p => p.user_id == user.id).OrderBy(p => p.date))
                 {
                     ProfitCategory profitCategory = ctx.ProfitCategories.Where(p => p.id == profit.category_id).SingleOrDefault();
                     profitActivities.Add(new Activity() { dateTime = profit.date, amount = profit.amount, type = Constants.PROFIT, category = profitCategory.name });
                 }
 
-                foreach (Expense expense in ctx.Expenses.OrderBy(e => e.date))
+                foreach (Expense expense in ctx.Expenses.Where(e => e.user_id == user.id).OrderBy(e => e.date))
                 {
                     ExpenseCategory expenseCategory = ctx.ExpenseCategories.Where(e => e.id == expense.category_id).SingleOrDefault();
                     expenseActivities.Add(new Activity() { dateTime = expense.date, amount = expense.amount, type = Constants.EXPENSE, category = expenseCategory.name });
@@ -77,12 +80,56 @@ namespace Accaunting
                 Constants.ALL_DATA
             };
 
+            periodList = new List<string>()
+            {
+                Constants.ALL_DATA,
+                Constants.PERIOD_DAY,
+                Constants.PERIOD_WEEK,
+                Constants.PERIOD_MONTH,
+                Constants.PERIOD_YEAR
+            };
+
             categoryList = allList;
 
             SelectedType = Constants.ALL_DATA;
             CategoryComboBox.SelectedIndex = 0;
+
+            List<double> profitX = new List<double>();
+            List<double> profitY = new List<double>();
+            foreach (Activity activity in Activities.Where(a => a.type.Equals(Constants.PROFIT)))
+            {
+                profitX.Add(activity.dateTime.AddMinutes(-1).ToOADate());
+                profitY.Add(activity.amount);
+            }
+
+            List<double> expenseX = new List<double>();
+            List<double> expenseY = new List<double>();
+            foreach (Activity activity in Activities.Where(a => a.type.Equals(Constants.EXPENSE)))
+            {
+                expenseX.Add(activity.dateTime.AddMinutes(-1).ToOADate());
+                expenseY.Add(activity.amount);
+            }
+
+            var profitLine = new LineGraph();
+            lines.Children.Add(profitLine);
+            profitLine.Stroke = new SolidColorBrush(Colors.Blue);
+            profitLine.StrokeThickness = 2;
+            profitLine.Plot(profitX, profitY);
+
+            var expenseLine = new LineGraph();
+            lines.Children.Add(expenseLine);
+            expenseLine.Stroke = new SolidColorBrush(Colors.Red);
+            expenseLine.StrokeThickness = 2;
+            expenseLine.Plot(expenseX, expenseY);
+
+            showDataButton = new RelayCommand(ShowData, p => true);
         }
-        
+
+        private void ShowData(object obj)
+        {
+            
+        }
+
         private void ActivityTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ActivityTypeComboBox.SelectedItem.Equals(Constants.PROFIT))
@@ -124,6 +171,12 @@ namespace Accaunting
             }
         }
 
+        public ICommand ShowDataButton
+        {
+            get { return showDataButton; }
+            set { showDataButton = value; }
+        }
+
         public List<Activity> Activities
         {
             get { return activities; }
@@ -141,6 +194,12 @@ namespace Accaunting
             get { return categoryList; }
             set { categoryList = value;
                 PropChanged("CategoryList"); }
+        }
+
+        public List<string> PeriodList
+        {
+            get { return periodList; }
+            set { periodList = value; }
         }
 
         public string SelectedType { get; set; }
@@ -172,7 +231,16 @@ namespace Accaunting
             set { }
         }
 
-        public string ShowDataButton
+        public string PeriodText
+        {
+            get
+            {
+                return Constants.PERIOD;
+            }
+            set { }
+        }
+
+        public string ShowDataButtonText
         {
             get
             {
@@ -205,6 +273,20 @@ namespace Accaunting
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+    }
+
+    public class VisibilityToCheckedConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return ((Visibility)value) == Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return ((bool)value) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

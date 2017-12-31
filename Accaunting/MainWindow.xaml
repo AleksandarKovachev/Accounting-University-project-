@@ -16,7 +16,11 @@
         TextElement.FontSize="14"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-
+    
+    <Window.Resources>
+        <local:VisibilityToCheckedConverter x:Key="VisibilityToCheckedConverter"/>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -37,26 +41,42 @@
                     <materialDesign:Card Padding="32" Margin="16">
                         <DockPanel>
                             <DockPanel DockPanel.Dock="Top">
-                                <StackPanel Margin="10" Width="200">
+                                <StackPanel Margin="10" Width="150">
                                     <TextBlock Text="{Binding TypeText}"/>
                                     <ComboBox x:Name="TypeComboBox" ItemsSource="{Binding TypeList}" SelectedItem="{Binding SelectedType}" SelectionChanged="TypeComboBox_SelectionChanged"/>
                                 </StackPanel>
-                                <StackPanel Margin="10" Width="200">
+                                <StackPanel Margin="10" Width="150">
                                     <TextBlock Text="{Binding CategoryText}"/>
                                     <ComboBox x:Name="CategoryComboBox" ItemsSource="{Binding CategoryList}"/>
                                 </StackPanel>
+                                <StackPanel Margin="10" Width="150">
+                                    <TextBlock Text="{Binding PeriodText}"/>
+                                    <ComboBox x:Name="PeriodComboBox" SelectedIndex="0" ItemsSource="{Binding PeriodList}"/>
+                                </StackPanel>
                                 <DockPanel>
-                                    <Button Margin="10" Content="{Binding ShowDataButton}"/>
+                                    <Button Margin="10" Content="{Binding ShowDataButtonText}" Command="{Binding ShowDataButton}" />
                                 </DockPanel>
                             </DockPanel>
 
                             <DockPanel DockPanel.Dock="Bottom">
-                                <d3:Chart BottomTitle="Дата" LeftTitle="Сума" Background="Gray" Width="550" Height="550">
+                                <d3:Chart BottomTitle="Дата" LeftTitle="Сума" Background="Gray" Width="600" Height="600">
                                     <d3:Chart.Title>
                                         <TextBlock HorizontalAlignment="Center" FontSize="18" Margin="0,5,0,5" Text="{Binding Header}"/>
                                     </d3:Chart.Title>
-                                    <d3:LineGraph x:Name="LineGraph" Stroke="{Binding StrokeColor}" StrokeThickness="5"/>
-                                </d3:Chart>
+                                    <d3:Chart.LegendContent>
+                                        <d3:LegendItemsPanel>
+                                            <d3:LegendItemsPanel.Resources>
+                                                <DataTemplate x:Key="InteractiveDataDisplay.WPF.LineGraph">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <CheckBox IsChecked="{Binding Path=Visibility, Converter={StaticResource VisibilityToCheckedConverter}, Mode=TwoWay}"/>
+                                                        <Line Width="15" Height="15" X1="0" Y1="0" X2="15" Y2="15" Stroke="{Binding Path=Stroke}" StrokeThickness="2"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </d3:LegendItemsPanel.Resources>
+                                        </d3:LegendItemsPanel>
+                                    </d3:Chart.LegendContent>
+                                    <Grid Name="lines"/>
+                                   </d3:Chart>
                             </DockPanel>
 
                         </DockPanel>

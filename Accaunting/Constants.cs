@@ -44,5 +44,8 @@
         public static string MESSAGE_BOX_ERROR = "Грешка";
         public static string MISSING_USER = "Потребител с потребителско име {0} и въведената парола не е намерен!";
 
+        public static string PROJECT_INFO = "Проект по \"Програмиране на C#\"\nАлександър Николаев Ковачев\nГрупа: 51, Факултетен номер: 501214024";
+        public static string DOCUMENT_INFO = "Отчет по избрани параметри:\nТип: {0}, Категория: {1}, Период: {2}";
+
     }
 }

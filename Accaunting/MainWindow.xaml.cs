@@ -2,6 +2,7 @@
 using PdfSharp;
 using PdfSharp.Charting;
 using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
 using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
@@ -112,19 +113,31 @@ namespace Accaunting
         {
             PdfDocument document = new PdfDocument();
             XPdfFontOptions options = new XPdfFontOptions(PdfFontEncoding.Unicode, PdfFontEmbedding.Always);
-            XFont font = new XFont("Times New Roman", 20, XFontStyle.Regular, options);
+            XFont titleFont = new XFont("Times New Roman", 28, XFontStyle.Bold, options);
+            XFont regularFont = new XFont("Times New Roman", 18, XFontStyle.Regular, options);
 
             PdfPage page = document.AddPage();
             page.Size = PageSize.A4;
-
             XGraphics gfx = XGraphics.FromPdfPage(page);
 
-            gfx.DrawString(Constants.HEADER, font, XBrushes.Black,
-                new XRect(0, 0, page.Width, page.Height), XStringFormats.TopCenter);
+            gfx.DrawString(Constants.HEADER, titleFont, XBrushes.Black,
+                new XRect(0, 50, page.Width, page.Height), XStringFormats.TopCenter);
+
+            XTextFormatter authorTextFormatter = new XTextFormatter(gfx);
+            authorTextFormatter.Alignment = XParagraphAlignment.Right;
+            authorTextFormatter.DrawString(Constants.PROJECT_INFO, regularFont, XBrushes.Black,
+                new XRect(-40, page.Height - 100, page.Width, page.Height), XStringFormats.TopLeft);
+
+            XTextFormatter documentInfo = new XTextFormatter(gfx);
+            authorTextFormatter.Alignment = XParagraphAlignment.Left;
+            authorTextFormatter.DrawString(
+                string.Format(Constants.DOCUMENT_INFO, SelectedType, SelectedCategory, SelectedPeriod),
+                regularFont, XBrushes.Black,
+                new XRect(40, 150, page.Width, page.Height), XStringFormats.TopLeft);
 
             ChartFrame chartFrame = new ChartFrame();
-            chartFrame.Location = new XPoint(40, 100);
-            chartFrame.Size = new XSize(500, 600);
+            chartFrame.Location = new XPoint(40, 200);
+            chartFrame.Size = new XSize(500, 500);
             chartFrame.Add(LineChart());
             chartFrame.Draw(gfx);
 

@@ -283,7 +283,7 @@ namespace Accaunting
 
                 var profitLine = new LineGraph();
                 lines.Children.Add(profitLine);
-                profitLine.Stroke = new SolidColorBrush(Colors.Green);
+                profitLine.Stroke = new SolidColorBrush(Color.FromRgb(0, 255, 0));
                 profitLine.StrokeThickness = 2;
                 profitLine.Plot(profitX, profitY);
             }

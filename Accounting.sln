@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounting", "Accaunting\Accounting.csproj", "{525937A9-407A-43C3-9AAC-A985DFAED2D9}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{4AFB8036-2ED4-4DC8-9680-39E46B8F7CF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{525937A9-407A-43C3-9AAC-A985DFAED2D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{525937A9-407A-43C3-9AAC-A985DFAED2D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{525937A9-407A-43C3-9AAC-A985DFAED2D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AFB8036-2ED4-4DC8-9680-39E46B8F7CF1}.Debug|Any CPU.ActiveCfg = Debug
+		{4AFB8036-2ED4-4DC8-9680-39E46B8F7CF1}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

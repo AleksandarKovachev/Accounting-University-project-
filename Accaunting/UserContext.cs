@@ -9,7 +9,6 @@ namespace Accaunting
         public UserContext() : base("name=UserContext") { }
 
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserType> UserTypes { get; set; }
         public virtual DbSet<Property> Properties { get; set; }
         public virtual DbSet<Profit> Profits { get; set; }
         public virtual DbSet<ProfitCategory> ProfitCategories { get; set; }

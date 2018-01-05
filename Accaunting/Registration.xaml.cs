@@ -21,8 +21,6 @@ namespace Accaunting
 
             login = new RelayCommand(ShowLoginWindow, param => true);
             registrationBtn = new RelayCommand(RegisterNewUser, param => true);
-
-            ShowUserTypes();
         }
 
         private void RegisterNewUser(object obj)
@@ -30,37 +28,29 @@ namespace Accaunting
             string username = UsernameTextBox.Text;
             string password = PasswordTextBox.Password;
             string email = EmailTextBox.Text;
-            UserType userType = UserTypeList.SelectedItem as UserType;
 
             if (isValid(username, Constants.USERNAME) && isValid(password, Constants.PASSWORD) && isValid(email, Constants.EMAIL))
             {
-                if(userType == null)
+                using (var ctx = new UserContext())
                 {
-                    System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, Constants.TYPE), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-                } else
-                {
-                    using (var ctx = new UserContext())
+                    User user = new User()
                     {
-                        User user = new User()
-                        {
-                            username = username,
-                            password = password,
-                            email = email,
-                            userType_id = userType.id,
-                            createDate = DateTime.Now
-                        };
-                        ctx.Users.Add(user);
-                        ctx.SaveChangesAsync();
+                        username = username,
+                        password = password,
+                        email = email,
+                        createDate = DateTime.Now
+                    };
+                    ctx.Users.Add(user);
+                    ctx.SaveChangesAsync();
 
-                        Property property = ctx.Properties.Where(p => p.key == PropertyConstants.LOGGED_USER).SingleOrDefault();
-                        property.value = username;
-                        ctx.Properties.Attach(property);
-                        ctx.Entry(property).State = EntityState.Modified;
-                        ctx.SaveChangesAsync();
+                    Property property = ctx.Properties.Where(p => p.key == PropertyConstants.LOGGED_USER).SingleOrDefault();
+                    property.value = username;
+                    ctx.Properties.Attach(property);
+                    ctx.Entry(property).State = EntityState.Modified;
+                    ctx.SaveChangesAsync();
 
-                        new MainWindow().Show();
-                        this.Close();
-                    }
+                    new MainWindow().Show();
+                    this.Close();
                 }
             }
 
@@ -74,14 +64,6 @@ namespace Accaunting
                 return false;
             }
             return true;
-        }
-
-        private void ShowUserTypes()
-        {
-            using (var ctx = new UserContext())
-            {
-                UserTypeList.ItemsSource = ctx.UserTypes.ToList();
-            }
         }
 
         private void ShowLoginWindow(object obj)
@@ -146,15 +128,6 @@ namespace Accaunting
             get
             {
                 return Constants.EMAIL;
-            }
-            set { }
-        }
-
-        public string Usertype
-        {
-            get
-            {
-                return Constants.TYPE;
             }
             set { }
         }

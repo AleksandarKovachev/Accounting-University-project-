@@ -31,8 +31,38 @@ namespace Accaunting
 
             if (isValid(username, Constants.USERNAME) && isValid(password, Constants.PASSWORD) && isValid(email, Constants.EMAIL))
             {
+                if(username.Length < 4)
+                {
+                    showMessage(Constants.USERNAME_LENGTH, username);
+                    return;
+                }
+
+                if (password.Length < 4)
+                {
+                    showMessage(Constants.PASSWORD_LENGTH, password);
+                    return;
+                }
+
+                if (!IsValidEmail(email))
+                {
+                    showMessage(Constants.EMAIL_NOT_VALID, email);
+                    return;
+                }
+
                 using (var ctx = new UserContext())
                 {
+                    if (ctx.Users.Where(u => u.username.Equals(username)).SingleOrDefault() != null)
+                    {
+                        showMessage(Constants.USERNAME_EXISTING, username);
+                        return;
+                    }
+
+                    if (ctx.Users.Where(u => u.email.Equals(email)).SingleOrDefault() != null)
+                    {
+                        showMessage(Constants.EMAIL_EXISTING, username);
+                        return;
+                    }
+
                     User user = new User()
                     {
                         username = username,
@@ -60,10 +90,28 @@ namespace Accaunting
         {
             if (string.IsNullOrWhiteSpace(field))
             {
-                System.Windows.MessageBox.Show(String.Format(Constants.FIELD_IS_EMPTY, name), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                showMessage(Constants.FIELD_IS_EMPTY, name);
                 return false;
             }
             return true;
+        }
+
+        private void showMessage(string message, string parameter)
+        {
+            System.Windows.MessageBox.Show(String.Format(message, parameter), Constants.MESSAGE_BOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private void ShowLoginWindow(object obj)

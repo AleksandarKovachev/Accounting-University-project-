@@ -42,7 +42,12 @@
 
         public static string FIELD_IS_EMPTY = "Полето {0} не е попълнено!";
         public static string MESSAGE_BOX_ERROR = "Грешка";
+        public static string EMAIL_NOT_VALID = "Въведения имейл {0} не е валиден!";
         public static string MISSING_USER = "Потребител с потребителско име {0} и въведената парола не е намерен!";
+        public static string USERNAME_LENGTH = "Потребителското име трябва да бъде поне 4 символа!";
+        public static string PASSWORD_LENGTH = "Паролата трябва да бъде поне 6 символа!";
+        public static string USERNAME_EXISTING = "Потребител с потребителското име {0} вече съществува!";
+        public static string EMAIL_EXISTING = "Потребител с имейл {0} вече съществува!";
 
         public static string PROJECT_INFO = "Проект по \"Програмиране на C#\"\nАлександър Николаев Ковачев\nГрупа: 51, Факултетен номер: 501214024";
         public static string DOCUMENT_INFO = "Отчет по избрани параметри:\nТип: {0}, Категория: {1}, Период: {2}";

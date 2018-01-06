@@ -41,7 +41,7 @@ namespace Accaunting
                         createDate = DateTime.Now
                     };
                     ctx.Users.Add(user);
-                    ctx.SaveChangesAsync();
+                    ctx.SaveChanges();
 
                     Property property = ctx.Properties.Where(p => p.key == PropertyConstants.LOGGED_USER).SingleOrDefault();
                     property.value = username;

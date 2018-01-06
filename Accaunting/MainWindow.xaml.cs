@@ -45,13 +45,14 @@ namespace Accaunting
             using (var ctx = new UserContext())
             {
                 loggedUser = ctx.Properties.Where(p => p.key == PropertyConstants.LOGGED_USER).SingleOrDefault();
-                if (loggedUser.value == null)
+                if (string.IsNullOrWhiteSpace(loggedUser.value))
                 {
                     new Login().Show();
                     this.Close();
+                    return;
                 }
 
-                user = ctx.Users.Where(u => u.username.Equals(loggedUser.value)).SingleOrDefault();
+                user = ctx.Users.Where(u => u.username.Equals(loggedUser.value)).Single();
                 expenseCategories = new List<ExpenseCategory>(ctx.ExpenseCategories.ToList());
                 profitCategories = new List<ProfitCategory>(ctx.ProfitCategories.ToList());
 

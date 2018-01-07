@@ -28,13 +28,13 @@ namespace Accaunting
             {
                 user = ctx.Users.Where(p => p.username.Equals(loggedUser.value)).SingleOrDefault();
 
-                var dateTimes = ctx.Profits.OrderBy(p => p.date).Select(p => p.date).ToArray();
+                var dateTimes = ctx.Profits.Where(p => p.user_id == user.id).OrderBy(p => p.date).Select(p => p.date).ToArray();
                 List<Double> x = new List<double>();
                 foreach(DateTime dt in dateTimes)
                 {
                     x.Add(dt.AddMinutes(-1).ToOADate());
                 }
-                var y = ctx.Profits.Select(p => p.amount).ToArray();
+                var y = ctx.Profits.Where(p => p.user_id == user.id).Select(p => p.amount).ToArray();
 
                 ProfitUC.LineGraph.Plot(x, y);
 

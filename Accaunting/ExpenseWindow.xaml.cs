@@ -29,13 +29,13 @@ namespace Accaunting
             {
                 user = ctx.Users.Where(p => p.username.Equals(loggedUser.value)).SingleOrDefault();
 
-                var dateTimes = ctx.Expenses.OrderBy(p => p.date).Select(p => p.date).ToArray();
+                var dateTimes = ctx.Expenses.Where(e => e.user_id == user.id).OrderBy(p => p.date).Select(p => p.date).ToArray();
                 List<Double> x = new List<double>();
                 foreach (DateTime dt in dateTimes)
                 {
                     x.Add(dt.AddMinutes(-1).ToOADate());
                 }
-                var y = ctx.Expenses.Select(p => p.amount).ToArray();
+                var y = ctx.Expenses.Where(e => e.user_id == user.id).Select(p => p.amount).ToArray();
 
                 ExpenseUC.LineGraph.Plot(x, y);
                 _ExpenseCategories = new ObservableCollection<ExpenseCategory>(ctx.ExpenseCategories.ToList());
